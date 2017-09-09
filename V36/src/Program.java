@@ -44,11 +44,11 @@ public class Program {
 		// Skapa en person buffer
 		CircularBuffer<Person> cb = new CircularBuffer<Person>(3);
 		
-		cb.add(new Person("Anton", "Andersson", 34));	//lägg till person plats 0
+		cb.add(new Person("Anton", "Andersson", 22));	//lägg till person plats 0
 		cb.add(new Person("Emil", "Svenosson", 24));	//lägg till person plats 1
 		cb.remove();									//ta bort person plats 0
 		cb.add(new Person("Lotta", "Karlsson", 52));	//lägg till person plats 2
-		cb.add(new Person("Anders", "And", 45));		//lägg till personplats 0
+		cb.add(new Person("Anders", "And", -45));		//lägg till personplats 0
 		cb.add(new Person("Karin", "Lööve", 66));		//plats 1 full
 		cb.remove();									//ta bort person plats 1
 		//cb.add(new Person("Karin", "Lööve", 66));		//lägg till person plats 1 igen nu när den är ledig
