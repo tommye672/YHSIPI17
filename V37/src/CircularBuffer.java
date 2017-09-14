@@ -25,7 +25,6 @@ public class CircularBuffer<T> {
         m = true;
         buffer[tail] = item;
         tail = countUp(tail);
-        System.out.println("added item " + item.toString());
     }
 
     public void remove()
@@ -39,7 +38,6 @@ public class CircularBuffer<T> {
         m = false;
         buffer[head] = null;
         head = countUp(head);     
-        System.out.println("removed item");
     }
 
     public boolean isFull()

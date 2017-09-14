@@ -2,57 +2,80 @@ import java.util.Random;
 
 public class Program {
 	
-	private static CircularBuffer<Integer> buffer = new CircularBuffer<Integer>(10);
+	private static CircularBuffer<Integer> buffer = new CircularBuffer<Integer>(5);
+	private static Random random = new Random();
 	
-	public static class Consumer extends Thread
+	public static class Consumer implements Runnable
 	{
+		// Timespan in milliseconds for random generator
+		private int lowerBound = 500,
+					upperBound = 2000;
+		
 		public void run(){
 			while(true) {
 				if (buffer.isEmpty()){
 					synchronized(buffer) {
 						try {
+							System.out.println("Wait for Producer to produce...");
 							buffer.wait();
 						} catch(InterruptedException e) {
 				        }
 					}
+				}else {
+					buffer.remove();
+					System.out.println("item removed");
 				}
-			
-				buffer.remove();
+				
+				// Stop thread random time for some variation
 				try	{
-					Thread.sleep(1000);
+					Thread.sleep(random.nextInt(upperBound-lowerBound)+lowerBound);
 				} catch (InterruptedException e1){
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			      synchronized(buffer) {
-			    	  buffer.notifyAll();
+				
+			    synchronized(buffer) {
+			    	buffer.notifyAll();
 			    }
 			}
 	    }
 	}
 	
-	public static class Producer extends Thread
+	public static class Producer implements Runnable
 	{
-		public Random random = new Random();
+		public static int counter;
+		private int id;
+		
+		// Timespan in milliseconds for random generator
+		private int lowerBound = 500,
+					upperBound = 2000;
+		
+		public Producer() {
+			counter++;
+			id = counter;
+		}
 		
 		public void run(){
 			while(true) {
 				if (buffer.isFull()){
 					synchronized(buffer) {
 						try {
+							System.out.println("Wait for Consumer to consume...");
 							buffer.wait();
 						} catch(InterruptedException e) {
 				        }
 					}
+				}else {
+					buffer.add(random.nextInt(2000));
+					System.out.println("Item added by producer " + id);
 				}
 			
-				buffer.add(random.nextInt(1000));
+				// Stop thread random time for some variation
 				try	{
-					Thread.sleep(1000);
+					Thread.sleep(random.nextInt(upperBound-lowerBound)+lowerBound);
 				} catch (InterruptedException e1){
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
 			    synchronized(buffer) {
 			    	buffer.notifyAll();
 			    }
@@ -62,10 +85,13 @@ public class Program {
 
 	public static void main(String[] args){
 		
-		new Producer().start();
-		new Consumer().start();
-		new Consumer().start();
-						
+		Thread producer1 = new Thread(new Producer());
+		Thread producer2 = new Thread(new Producer());
+		Thread consumer = new Thread(new Consumer());
+
+		producer1.start();
+		producer2.start();
+		consumer.start();
 	}
 
 }
