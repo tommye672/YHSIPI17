@@ -15,7 +15,9 @@ public class Hotel {
 	}
 
 	public void checkIn(Person person) {
-		getVacantRoom().checkIn(person);
+		
+		getVacantRoom().checkIn(new Ticket(person,this.getVacantRoom()));
+//		getVacantRoom().checkIn(person);
 	}
 
 	public void checkOut() {
@@ -32,14 +34,27 @@ public class Hotel {
 	}
 
 	public void printCheckedinPersons() {
+		StringBuilder sb = new StringBuilder();
+		
 		rooms.stream()
 		.filter(t -> t.getTicket() != null)
 		.collect(Collectors.toList())
-		.forEach(r -> System.out.println(r.getTicket()));
-	}
+		.forEach(r -> sb.append(r.getTicket() + "\n"));
+		
+		sb.insert(0,sb.length() > 0 ? "Incheckade personer:\n" :"Finns ingen inchekad person...\n");
+		
+		System.out.println(sb.toString());
+	}	
 
 	public void printVacantRooms() {
-		getVacantRooms().forEach(r -> System.out.println(r.getRoomNr()));
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Lediga rum:\n");
+		
+		getVacantRooms().forEach(r -> sb.append(r.getRoomNr() + "\n"));
+		
+		System.out.println(sb.toString());
 	}
 	
 	private List<Room> getVacantRooms() { 

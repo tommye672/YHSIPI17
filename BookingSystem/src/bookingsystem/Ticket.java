@@ -15,6 +15,11 @@ public class Ticket {
 		checkInDate = new Date();
 		id = generateId();
 	}
+	public Ticket(Person person) {
+		this.person = person;
+		checkInDate = new Date();
+		id = generateId();
+	}
 
 	public String getId() {
 		return id;
@@ -34,7 +39,7 @@ public class Ticket {
 
 	@Override
 	public String toString() {
-		return "Ticket [person=" + person + ", room=" + room.getRoomNr() + ", id=" + id + ", checkInDate=" + checkInDate + "]";
+		return "Ticket [person=" + person + ", room=" + this.getRoom().getRoomNr() + ", id=" + id + ", checkInDate=" + checkInDate + "]";
 	}
 
 	private String generateId() {

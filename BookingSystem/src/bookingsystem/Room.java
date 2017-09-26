@@ -18,11 +18,13 @@ public class Room {
 		return roomNr;
 	}
 	
-	public void checkIn(Person person) {
-		ticket = new Ticket(person, this);
+	public void checkIn(Ticket ticket) {
+		this.ticket = ticket;
 	}
-	public void checkOut() {
+	public Ticket checkOut() {
+		Ticket checkOutTicket = ticket;
 		ticket = null;
-		System.out.println("checked out...");
+		System.out.println("checked out: " +checkOutTicket.toString());
+		return checkOutTicket;
 	}
 }
