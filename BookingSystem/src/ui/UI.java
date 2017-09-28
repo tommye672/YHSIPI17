@@ -9,13 +9,12 @@ public class UI  {
 	
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
+		Scanner in = new Scanner(System.in);
 		char input = 0;
 
-		while(input != 'q') {
-			
+		while(input != 'q') {	
 			printUIMenu();
-			input = sc.next().charAt(0);
+			input = in.next().charAt(0);
 			
 			switch(input) {
 				case '1':
@@ -25,30 +24,44 @@ public class UI  {
 					hotel.printCheckedinPersons();
 					break;
 				case '3':
-					test();
+					hotel.checkIn(printUICheckInNewPerson());
 					break;
 				default:
 					break;
 			}
 		}
-		sc.close();
-		
-		
+		in.close();
 	}
 	private static void printUIMenu() {
-		
 		StringBuilder sr = new StringBuilder();
 		
-		sr.append("MENY\n");
 		sr.append("************************************\n");
-		sr.append("1. Visa lediga rum\n");
-		sr.append("2. Visa inchekade personer\n");
-		sr.append("3. Checka in person\n");
-		sr.append("4. Checka ut person\n");
+		sr.append("*            MENY                  *\n");
+		sr.append("************************************\n");
+		sr.append("* 1. Visa lediga rum               *\n");
+		sr.append("* 2. Visa inchekade personer       *\n");
+		sr.append("* 3. Checka in person              *\n");
+		sr.append("* 4. Checka ut person              *\n");
 		
 		sr.append("\nGör ditt val: ");
-		System.out.println(sr.toString());		
+		System.out.print(sr.toString());		
 	}
+	
+	private static Person printUICheckInNewPerson() {
+		Scanner in = new Scanner(System.in);
+		System.out.println("Checka in ny gäst:");
+		
+		System.out.println("Namn: ");
+		String name = in.nextLine();
+		
+		System.out.println("Ålder: ");
+		int age = in.nextInt();
+		
+		in.close();
+		
+		return new Person(name, age);
+	}
+	
 	private static void test() {
 		Person p1 = new Person("Roffe", 58);
 		

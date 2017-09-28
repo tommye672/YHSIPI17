@@ -15,11 +15,6 @@ public class Ticket {
 		checkInDate = new Date();
 		id = generateId();
 	}
-	public Ticket(Person person) {
-		this.person = person;
-		checkInDate = new Date();
-		id = generateId();
-	}
 
 	public String getId() {
 		return id;
@@ -39,7 +34,7 @@ public class Ticket {
 
 	@Override
 	public String toString() {
-		return "Ticket [person=" + person + ", room=" + this.getRoom().getRoomNr() + ", id=" + id + ", checkInDate=" + checkInDate + "]";
+		return "Rum nr: " + this.getRoom().getRoomNr() + " - " + this.getPerson().getName() + " " + this.getPerson().getAge() + "år (" + id +")" ;
 	}
 
 	private String generateId() {
@@ -47,6 +42,6 @@ public class Ticket {
 		//use seed systemTime.milliseconds if necessary
 		Random random = new Random();
 		
-		return person.getName()+random.nextInt();
+		return person.getName().replaceAll("\\s", "")+random.nextInt();
 	}
 }

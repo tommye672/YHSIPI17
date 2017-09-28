@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 public class Hotel {
 
 	private List<Room> rooms = new ArrayList<Room>();
-
+	private List<Ticket> tickets = new ArrayList<Ticket>();
+	
 	public Hotel(int nrOfRooms) {
 		for (int i = 0; i < nrOfRooms;i++) {
 			rooms.add(new Room());
@@ -15,9 +16,7 @@ public class Hotel {
 	}
 
 	public void checkIn(Person person) {
-		
-		getVacantRoom().checkIn(new Ticket(person,this.getVacantRoom()));
-//		getVacantRoom().checkIn(person);
+		tickets.add(getVacantRoom().checkIn(person));
 	}
 
 	public void checkOut() {
@@ -35,13 +34,9 @@ public class Hotel {
 
 	public void printCheckedinPersons() {
 		StringBuilder sb = new StringBuilder();
+		tickets.forEach(r -> sb.append(r + "\n"));
 		
-		rooms.stream()
-		.filter(t -> t.getTicket() != null)
-		.collect(Collectors.toList())
-		.forEach(r -> sb.append(r.getTicket() + "\n"));
-		
-		sb.insert(0,sb.length() > 0 ? "Incheckade personer:\n" :"Finns ingen inchekad person...\n");
+		sb.insert(0,sb.length() > 0 ? "Incheckade personer:\n" :"Finns ingen incheckad person...\n");
 		
 		System.out.println(sb.toString());
 	}	

@@ -18,8 +18,9 @@ public class Room {
 		return roomNr;
 	}
 	
-	public void checkIn(Ticket ticket) {
-		this.ticket = ticket;
+	public Ticket checkIn(Person person) {
+		ticket = new Ticket(person, this);
+		return ticket;
 	}
 	public Ticket checkOut() {
 		Ticket checkOutTicket = ticket;
