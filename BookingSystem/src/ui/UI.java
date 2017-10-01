@@ -5,18 +5,11 @@ import java.util.Scanner;
 import bookingsystem.*;
 
 public class UI  {
-	private static Hotel hotel = new Hotel(10);
+	private static Hotel hotel = new Hotel(2);
 	
 	public static void main(String[] args) {
-
-		Scanner in = new Scanner(System.in);
-		char input = 0;
-
-		while(input != 'q') {	
-			printUIMenu();
-			input = in.next().charAt(0);
-			
-			switch(input) {
+		while(true) {
+			switch(printUIMenu()) {			
 				case '1':
 					hotel.printVacantRooms();
 					break;
@@ -24,15 +17,19 @@ public class UI  {
 					hotel.printCheckedinPersons();
 					break;
 				case '3':
-					hotel.checkIn(printUICheckInNewPerson());
+					checkIn();
 					break;
+				case '4':				
+					checkOut();
+					break;
+				case '9':				
+					return;
 				default:
 					break;
 			}
 		}
-		in.close();
 	}
-	private static void printUIMenu() {
+	private static char printUIMenu() {	
 		StringBuilder sr = new StringBuilder();
 		
 		sr.append("************************************\n");
@@ -42,13 +39,26 @@ public class UI  {
 		sr.append("* 2. Visa inchekade personer       *\n");
 		sr.append("* 3. Checka in person              *\n");
 		sr.append("* 4. Checka ut person              *\n");
+		sr.append("* 9. Avsluta                       *\n");
 		
 		sr.append("\nGör ditt val: ");
-		System.out.print(sr.toString());		
+		System.out.print(sr.toString());	
+		
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		
+		return in.next().charAt(0);
 	}
 	
-	private static Person printUICheckInNewPerson() {
+	private static void checkIn() {
+		if(hotel.getVacantRoom() == null) {
+			System.out.println("Hotellet är fullbelagt...\n");
+			return;
+		}
+		
+		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
+		
 		System.out.println("Checka in ny gäst:");
 		
 		System.out.println("Namn: ");
@@ -56,19 +66,16 @@ public class UI  {
 		
 		System.out.println("Ålder: ");
 		int age = in.nextInt();
-		
-		in.close();
-		
-		return new Person(name, age);
+
+		hotel.checkIn(new Person(name, age));
 	}
 	
-	private static void test() {
-		Person p1 = new Person("Roffe", 58);
+	private static void checkOut() {
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
 		
-//		hotel.printVacantRooms();
-		hotel.checkIn(p1);
-//		hotel.printCheckedinPersons();
-//		hotel.checkOut();
+		System.out.println("Ange ticket ID:");
+		
+		hotel.checkOut(in.nextLine());
 	}
-
 }

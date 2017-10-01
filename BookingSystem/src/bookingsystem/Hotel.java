@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Hotel {
-
 	private List<Room> rooms = new ArrayList<Room>();
-	private List<Ticket> tickets = new ArrayList<Ticket>();
 	
 	public Hotel(int nrOfRooms) {
 		for (int i = 0; i < nrOfRooms;i++) {
@@ -16,16 +14,26 @@ public class Hotel {
 	}
 
 	public void checkIn(Person person) {
-		tickets.add(getVacantRoom().checkIn(person));
+		getVacantRoom().checkIn(person);
 	}
 
-	public void checkOut() {
+	public void checkOut(String id) {
+		try {
 		rooms.stream()
-		.findFirst()
-		.get()
-		.checkOut();
+				.filter(r -> r.getTicket().getId().equals(id))
+				.findFirst()
+				.get()
+				.checkOut();
+		}
+		catch(Exception e ){
+			System.out.println("Finns ingen ticket med angivet ID...\n");
+		}
 	}
-	public Room getVacantRoom() { 
+	
+	public Room getVacantRoom() { 	
+		if (getVacantRooms().isEmpty()) {
+			return null;
+			}
 		return getVacantRooms()
 				.stream()
 				.findAny()
@@ -34,7 +42,8 @@ public class Hotel {
 
 	public void printCheckedinPersons() {
 		StringBuilder sb = new StringBuilder();
-		tickets.forEach(r -> sb.append(r + "\n"));
+		
+		rooms.stream().filter(r -> r.getTicket() != null).forEach(r -> sb.append(r.getTicket() + "\n"));
 		
 		sb.insert(0,sb.length() > 0 ? "Incheckade personer:\n" :"Finns ingen incheckad person...\n");
 		
@@ -42,7 +51,6 @@ public class Hotel {
 	}	
 
 	public void printVacantRooms() {
-		
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("Lediga rum:\n");

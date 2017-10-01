@@ -34,12 +34,12 @@ public class Ticket {
 
 	@Override
 	public String toString() {
-		return "Rum nr: " + this.getRoom().getRoomNr() + " - " + this.getPerson().getName() + " " + this.getPerson().getAge() + "år (" + id +")" ;
+		return "Rum nr " + this.getRoom().getRoomNr() + ": \t" + this.getPerson().toString() + 
+				"\n\t\tIncheckad: "+ checkInDate + 
+				"\n\t\tTicket: " + id;
 	}
 
 	private String generateId() {
-		
-		//use seed systemTime.milliseconds if necessary
 		Random random = new Random();
 		
 		return person.getName().replaceAll("\\s", "")+random.nextInt();
