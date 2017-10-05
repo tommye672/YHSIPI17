@@ -18,15 +18,19 @@ public class Hotel {
 	}
 
 	public void checkOut(String id) {
+		System.out.println("Utcheckning sker...\n");
 		try {
-		rooms.stream()
+			rooms.stream()
+				.filter(r -> r.getTicket() != null)
 				.filter(r -> r.getTicket().getId().equals(id))
 				.findFirst()
 				.get()
 				.checkOut();
-		}
+			}
 		catch(Exception e ){
-			System.out.println("Finns ingen ticket med angivet ID...\n");
+			System.out.println("Något gick fel...\n");
+			System.out.println(id+"\n");
+			System.out.println(rooms.toString());
 		}
 	}
 	

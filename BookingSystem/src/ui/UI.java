@@ -36,7 +36,7 @@ public class UI  {
 		sr.append("*            MENY                  *\n");
 		sr.append("************************************\n");
 		sr.append("* 1. Visa lediga rum               *\n");
-		sr.append("* 2. Visa inchekade personer       *\n");
+		sr.append("* 2. Visa incheckade personer       *\n");
 		sr.append("* 3. Checka in person              *\n");
 		sr.append("* 4. Checka ut person              *\n");
 		sr.append("* 9. Avsluta                       *\n");
