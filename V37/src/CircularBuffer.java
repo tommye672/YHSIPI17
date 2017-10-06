@@ -17,11 +17,11 @@ public class CircularBuffer<T> {
 
     public void add(T item)
     {
-        //TODO error handling
-
         if (isFull())
             return;
 
+        if (buffer[tail] != null) throw new IllegalArgumentException();
+        
         m = true;
         buffer[tail] = item;
         tail = countUp(tail);
@@ -29,12 +29,11 @@ public class CircularBuffer<T> {
 
     public void remove()
     {
-        //TODO error handling
-        //TODO ska objectet returneras eller bara tas bort?
-
         if (isEmpty())
             return;
 
+        if (buffer[head] == null) throw new IllegalArgumentException();
+        
         m = false;
         buffer[head] = null;
         head = countUp(head);     
